@@ -1,5 +1,34 @@
 import streamlit as st 
-import  backend_logic   
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationChain
+from langchain_aws import ChatBedrockConverse
+def demo_chatbot():
+    demo_llm=ChatBedrockConverse(
+        credentials_profile_name='default',
+        region_name="us-east-1",
+        model="amazon.nova-pro-v1:0",
+        temperature=0.1,
+        max_tokens=1000)
+    return demo_llm
+
+def demo_memory():
+    llm_data=demo_chatbot()
+    memory=ConversationBufferMemory(llm=llm_data,max_token_limit=2000)
+    return memory
+
+
+def demo_conversation(input_text,memory):
+    llm_chain_data=demo_chatbot()
+    llm_conversation = ConversationChain(
+    llm=llm_chain_data, 
+    memory=memory,
+    verbose=True
+)
+#5 Chat response using invoke (Prompt template)
+    chat_reply=llm_conversation.invoke(input_text)
+    return chat_reply['response']
+    
+
 st.title("I am a Conversational Chatbot With Memory :sunglasses:")
 #st.sidebar.image("law (2).jpg", width=250)
 st.sidebar.title("Profile of the Developer") 
@@ -22,7 +51,7 @@ st.divider()
 #name = st.text_input("What is your you name ?")
 
 if 'memory' not in st.session_state: 
-    st.session_state.memory = backend_logic.demo_memory() 
+    st.session_state.memory = demo_memory() 
 
 
 if 'chat_history' not in st.session_state: 
@@ -40,7 +69,7 @@ if input_text:
     
     st.session_state.chat_history.append({"role":"user", "text":input_text}) 
 
-    chat_response = backend_logic.demo_conversation(input_text=input_text, memory=st.session_state.memory) #** replace with ConversationChain Method name - call the model through the supporting library
+    chat_response = demo_conversation(input_text=input_text, memory=st.session_state.memory) #** replace with ConversationChain Method name - call the model through the supporting library
     
     with st.chat_message("assistant"): 
         st.markdown(chat_response) 
