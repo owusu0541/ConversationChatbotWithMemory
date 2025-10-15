@@ -4,7 +4,6 @@ from langchain.chains import ConversationChain
 from langchain_aws import ChatBedrockConverse
 def demo_chatbot():
     demo_llm=ChatBedrockConverse(
-        credentials_profile_name='default',
         region_name="us-east-1",
         model="amazon.nova-pro-v1:0",
         temperature=0.1,
