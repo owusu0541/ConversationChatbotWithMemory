@@ -1,5 +1,5 @@
 import streamlit as st
-from langchain.memory import ConversationBufferMemory               # usual
+#from langchain.memory import ConversationBufferMemory               # usual
 from langchain.memory.buffer import ConversationBufferMemory      # alternate
 from langchain.memory.chat_memory import ConversationBufferMemory # another possibility
 
