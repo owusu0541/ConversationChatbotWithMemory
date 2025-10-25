@@ -1,4 +1,8 @@
-import streamlit as st 
+import streamlit as st
+from langchain.memory import ConversationBufferMemory               # usual
+from langchain.memory.buffer import ConversationBufferMemory      # alternate
+from langchain.memory.chat_memory import ConversationBufferMemory # another possibility
+
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
 from langchain_aws import ChatBedrockConverse
